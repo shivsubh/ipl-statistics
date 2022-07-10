@@ -7,6 +7,7 @@ This is a front-end web app showing data of IPL seasons. This is a great web app
 - In less time you can see all the stats.
 - Impressive Charts.
 - Mobile friendly.
+- Deployed Link - https://ipl-statisticsnyshubham.netlify.app/
 
 # Built With
 
