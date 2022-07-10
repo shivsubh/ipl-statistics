@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { usePapaParse } from "react-papaparse";
+import Papa from "papaparse";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +14,6 @@ import {
 } from "chart.js";
 import { Bar, Doughnut, Pie, Line } from "react-chartjs-2";
 import InfoCards from "../infocards/InfoCards";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "./IPLData.css";
 
@@ -40,8 +39,6 @@ const IPLData = () => {
   const [infoCard1, setInfoCard1] = useState();
   const [matches, setMatches] = useState();
 
-  const { readRemoteFile } = usePapaParse();
-
   useEffect(() => {
     return handleReadRemoteFile;
   }, []);
@@ -59,12 +56,11 @@ const IPLData = () => {
   }, [iplData]);
 
   const handleReadRemoteFile = () => {
-    readRemoteFile("/data/matches.csv", {
+    Papa.parse("https://ipl-statisticsnyshubham.netlify.app/data/matches.csv", {
       header: true,
       download: true,
       dynamicTyping: true,
-      delimiter: ",",
-      complete: (result) => {
+      complete: function (result) {
         setIplData(result.data);
       },
     });
