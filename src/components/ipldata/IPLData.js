@@ -15,7 +15,6 @@ import {
 } from "chart.js";
 import { Bar, Doughnut, Pie, Line } from "react-chartjs-2";
 import InfoCards from "../infocards/InfoCards";
-import matchesData from "../../data/matches.json";
 import "./IPLData.css";
 
 ChartJS.register(
@@ -41,7 +40,8 @@ const IPLData = () => {
   const [matches, setMatches] = useState();
 
   useEffect(() => {
-    return handleReadRemoteFile;
+    handleReadRemoteFile();
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -57,20 +57,14 @@ const IPLData = () => {
   }, [iplData]);
 
   const handleReadRemoteFile = () => {
-    // Papa.parse("/data/matches.csv", {
-    //   header: true,
-    //   download: true,
-    //   dynamicTyping: true,
-    //   complete: function (result) {
-    //     setIplData(result.data);
-    //   },
-    // });
-    // above code was working on localhost
-    // but in deployment it is not working
-    // uncomment above code and comment below
-    // code to see it running
-    setIplData(matchesData);
-    console.log(matchesData);
+    Papa.parse("/data/matches.csv", {
+      header: true,
+      download: true,
+      dynamicTyping: true,
+      complete: function (result) {
+        setIplData(result.data);
+      },
+    });
   };
 
   const dataChart1 = (data) => {
@@ -92,7 +86,6 @@ const IPLData = () => {
         },
       ],
     });
-    console.log(batCount);
   };
   function getRandomColor() {
     var letters = "0123456789ABCDEF".split("");
@@ -111,7 +104,6 @@ const IPLData = () => {
         locations[element.city] = 1;
       }
     });
-    console.log(locations);
     const colors = Object.keys(locations).map(() => getRandomColor());
     setMatchLocation({
       labels: [...Object.keys(locations)],
@@ -157,7 +149,6 @@ const IPLData = () => {
         if (match.win_by_wickets) winByWickets++;
         if (match.win_by_runs) winByRuns++;
       });
-      console.log(winByRuns, winByWickets);
       dataSetForWinByRuns.push(winByRuns);
       dataSetForWinByWickets.push(winByWickets);
     });
